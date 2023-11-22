@@ -28,7 +28,8 @@ export function ApiCreateNews() {
       type: IdResult,
     }),
     ApiBadRequestResponse({
-      description: 'Если переданные данные не соответствуют формату dto',
+      description:
+        'Если переданные данные не соответствуют формату dto или новость с переданным названием уже существует',
       type: ErrorResult,
     }),
     ApiUnauthorizedResponse({

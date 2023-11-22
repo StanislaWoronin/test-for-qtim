@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { NewsEntity } from '../../../common/providers/entities/news.entity';
 import { DataAndCountType } from '../../../common/shared/types/data-and-count.type';
+import { PaginationQuery } from '../../../common/shared/classes/pagination.query';
 
 @Injectable()
 export class NewsQueryRepository {
@@ -24,7 +25,7 @@ export class NewsQueryRepository {
   }
 
   async findNews(
-    pageSize: number,
+    { pageSize, title }: PaginationQuery,
     skipNumber: number,
   ): Promise<DataAndCountType<NewsEntity>> {
     return await this.newsRepository
@@ -39,9 +40,14 @@ export class NewsQueryRepository {
         'creator.id',
         'creator.email',
       ])
+      .where('news.title ILIKE :searchQuery', { searchQuery: `%${title}%` })
       .skip(skipNumber)
       .take(pageSize)
       .orderBy('news.createdAt', 'DESC')
       .getManyAndCount();
+  }
+
+  async titleExists(title: string): Promise<boolean> {
+    return this.newsRepository.exist({ where: { title } });
   }
 }

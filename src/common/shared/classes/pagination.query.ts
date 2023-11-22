@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNumber, IsOptional, Min } from 'class-validator';
+import { IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class PaginationQuery {
@@ -19,6 +19,11 @@ export class PaginationQuery {
   @Type(() => Number)
   @IsOptional()
   pageSize: number;
+
+  @ApiProperty({ description: 'Поиск по строке', default: 'заголовок' })
+  @IsString()
+  @IsOptional()
+  title: string;
 
   static skip({ pageNumber, pageSize }: PaginationQuery): number {
     return (pageNumber - 1) * pageSize;

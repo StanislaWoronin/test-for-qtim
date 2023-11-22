@@ -22,7 +22,7 @@ export class GetNewsQueryHandler
     const skipNumber = PaginationQuery.skip(dto);
 
     const newsAndCount = await this.newsQueryRepository.findNews(
-      dto.pageSize,
+      dto,
       skipNumber,
     );
 
