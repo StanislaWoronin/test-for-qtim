@@ -54,6 +54,7 @@ export class LoginCommandHandler
     const { iat } = this.jwtService.verify(token, {
       secret: this.configService.get(environmentConstant.secret.accessToken),
     });
+
     return iat;
   }
 }

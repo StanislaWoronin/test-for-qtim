@@ -27,10 +27,21 @@ export class NewsQueryRepository {
     pageSize: number,
     skipNumber: number,
   ): Promise<DataAndCountType<NewsEntity>> {
-    return this.newsRepository.findAndCount({
-      skip: skipNumber,
-      take: pageSize,
-      order: { createdAt: 'DESC' },
-    });
+    return await this.newsRepository
+      .createQueryBuilder('news')
+      .leftJoin('news.creator', 'creator')
+      .select([
+        'news.id',
+        'news.title',
+        'news.description',
+        'news.data',
+        'news.createdAt',
+        'creator.id',
+        'creator.email',
+      ])
+      .skip(skipNumber)
+      .take(pageSize)
+      .orderBy('news.createdAt', 'DESC')
+      .getManyAndCount();
   }
 }

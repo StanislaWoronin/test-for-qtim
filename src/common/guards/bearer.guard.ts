@@ -12,7 +12,6 @@ import { TTokenPayload } from '../shared/types/token-payload.type';
 import { environmentConstant } from '../constants/environment.constant';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
-import { SessionEntity } from '../providers/entities/session.entity';
 import { getCurrentTimeInMilliseconds } from '../shared/utils/get-current-time-in-milliseconds.util';
 import { TSessionCache } from '../shared/types/session-cache.type';
 

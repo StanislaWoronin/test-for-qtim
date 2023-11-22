@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { DataAndCountType } from '../types/data-and-count.type';
 
 export class PageResult<T> {
-  @ApiProperty()
+  @ApiProperty({ isArray: true })
   data: T[];
 
   @ApiProperty()

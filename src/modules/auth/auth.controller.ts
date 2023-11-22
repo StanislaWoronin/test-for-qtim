@@ -6,7 +6,7 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { CommandBus } from '@nestjs/cqrs';
 import { authEndpoint } from '../../common/constants/endpoints/auth.endpoint';
 import {
   ApiLogin,
@@ -21,10 +21,7 @@ import { AuthDto } from './dto';
 
 @Controller(authEndpoint.default)
 export class AuthController {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
-  ) {}
+  constructor(private readonly commandBus: CommandBus) {}
 
   @Post(authEndpoint.login)
   @UseGuards(CheckCredentialGuard)
