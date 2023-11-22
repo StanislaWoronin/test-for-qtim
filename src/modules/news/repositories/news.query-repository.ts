@@ -40,7 +40,9 @@ export class NewsQueryRepository {
         'creator.id',
         'creator.email',
       ])
-      .where('news.title ILIKE :searchQuery', { searchQuery: `%${title}%` })
+      .where('news.title ILIKE :searchQuery', {
+        searchQuery: `%${title ?? ''}%`,
+      })
       .skip(skipNumber)
       .take(pageSize)
       .orderBy('news.createdAt', 'DESC')

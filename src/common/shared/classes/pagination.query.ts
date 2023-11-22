@@ -3,7 +3,7 @@ import { IsNumber, IsOptional, IsString, Min } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class PaginationQuery {
-  @ApiProperty({ description: 'Номер страницы', default: 1 })
+  @ApiProperty({ description: 'Номер страницы', default: 1, required: false })
   @Min(1)
   @IsNumber()
   @Type(() => Number)
@@ -13,6 +13,7 @@ export class PaginationQuery {
   @ApiProperty({
     description: 'Количество элементов, которые будут отображены на странице',
     default: 5,
+    required: false,
   })
   @Min(1)
   @IsNumber()
@@ -20,7 +21,11 @@ export class PaginationQuery {
   @IsOptional()
   pageSize: number;
 
-  @ApiProperty({ description: 'Поиск по строке', default: 'заголовок' })
+  @ApiProperty({
+    description: 'Поиск по строке',
+    default: '',
+    required: false,
+  })
   @IsString()
   @IsOptional()
   title: string;
