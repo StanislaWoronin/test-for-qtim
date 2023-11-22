@@ -1,19 +1,9 @@
 import { Module } from '@nestjs/common';
-import { join } from 'path';
-import { ConfigModule } from '@nestjs/config';
 import { FeaturesModule } from './modules/features.module';
-import { CacheModule } from '@nestjs/cache-manager';
 import { DatabaseModule } from './common/providers/postgres/database.module';
+import { SharedModule } from './common/shared/shared.module';
 
 @Module({
-  imports: [
-    CacheModule.register({ isGlobal: true }),
-    ConfigModule.forRoot({
-      isGlobal: true,
-      envFilePath: join(process.cwd(), '.env'),
-    }),
-    FeaturesModule,
-    DatabaseModule,
-  ],
+  imports: [DatabaseModule, FeaturesModule, SharedModule],
 })
 export class AppModule {}

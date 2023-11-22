@@ -27,7 +27,7 @@ export class SessionEntity {
   static create(data: WithId<TMetadata>, createdAt: number): SessionEntity {
     return Object.assign(new SessionEntity(), {
       browser: data.browser,
-      userId: data.id,
+      user: data.id,
       createdAt,
     });
   }

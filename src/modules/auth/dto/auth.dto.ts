@@ -1,18 +1,14 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsString,
-  MaxLength,
-} from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString } from 'class-validator';
+import { UserEntity } from '../../../common/providers/entities/user.entity';
 
-export class RegistrationDto {
+type TAuthDto = Pick<UserEntity, 'email'> & { password: string };
+
+export class AuthDto implements TAuthDto {
   @ApiProperty({
     description: 'Электронная почта пользователя',
     example: 'somemail@gmail.com',
   })
-  @MaxLength(50)
   @IsEmail()
   @IsNotEmpty()
   email: string;

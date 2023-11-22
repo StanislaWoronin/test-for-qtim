@@ -6,7 +6,7 @@ import {
   ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
-import { LoginDto } from '../../../modules/auth/dto';
+import { AuthDto } from '../../../modules/auth/dto';
 import { settings } from '../../configurations';
 import { LoginView } from '../../../modules/auth/views/login.view';
 
@@ -14,7 +14,7 @@ export function ApiLogin() {
   return applyDecorators(
     ApiTags('Auth'),
     ApiOperation({ summary: 'Логин' }),
-    ApiBody({ type: LoginDto }),
+    ApiBody({ type: AuthDto }),
     ApiCreatedResponse({
       description: `Вернет в "теле" accessToken, который заекспарится через ${settings.ttl.accessToken} и refreshToken в куки (${settings.ttl.refreshToken})`,
       type: LoginView,

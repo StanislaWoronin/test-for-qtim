@@ -1,13 +1,13 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { BaseUseCase } from '../../../common/shared/classes/base.use-case';
+import { BaseUseCase } from '../../../common/use-cases/base.use-case';
 import { AuthQueryRepository } from '../repositories/auth.query-repository';
 import { BadRequestException } from '@nestjs/common';
-import { RegistrationDto } from '../dto';
 import { AuthRepository } from '../repositories/auth.repository';
 import { UserEntity } from '../../../common/providers/entities/user.entity';
+import { AuthDto } from '../dto';
 
 export class RegistrationCommand {
-  constructor(public readonly dto: RegistrationDto) {}
+  constructor(public readonly dto: AuthDto) {}
 }
 
 @CommandHandler(RegistrationCommand)

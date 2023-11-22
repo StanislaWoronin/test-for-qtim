@@ -5,6 +5,7 @@ import { Repository } from 'typeorm';
 import { WithId } from '../../../common/shared/types/with-id';
 import { TMetadata } from '../../../common/shared/types/metadata.type';
 import { SessionEntity } from '../../../common/providers/entities/session.entity';
+import { TSessionCache } from '../../../common/shared/types/session-cache.type';
 
 @Injectable()
 export class AuthQueryRepository {
@@ -34,19 +35,23 @@ export class AuthQueryRepository {
       .andWhere('session.browser = :browser', { browser })
       .select('session.id')
       .getOne();
-    console.log({ session });
-    return session.id;
+
+    return session?.id;
   }
 
   async findSessionViaCreatedAt(
     userId: string,
     createdAt: number,
-  ): Promise<SessionEntity> {
-    return this.sessionRepository
+  ): Promise<TSessionCache> {
+    const result = await this.sessionRepository
       .createQueryBuilder('session')
       .innerJoin('session.user', 'user')
       .where('user.id = :userId', { userId })
       .andWhere('session.createdAt = :createdAt', { createdAt })
+      .select('session.createdAt')
+      .addSelect('user.id')
       .getOne();
+
+    return { userId: result.user.id, createdAt: result.createdAt };
   }
 }

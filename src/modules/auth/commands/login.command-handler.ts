@@ -1,6 +1,6 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
 import { WithId } from '../../../common/shared/types/with-id';
-import { BaseUseCase } from '../../../common/shared/classes/base.use-case';
+import { BaseUseCase } from '../../../common/use-cases/base.use-case';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { environmentConstant } from '../../../common/constants/environment.constant';
@@ -34,6 +34,7 @@ export class LoginCommandHandler
   ) {
     super();
   }
+
   async executeUseCase({ dto }: LoginCommand): Promise<TCreatedTokens> {
     const sessionId = await this.authQueryRepository.findSessionViaBrowser(dto);
     if (sessionId) {

@@ -1,5 +1,5 @@
 import { Logger } from '@nestjs/common';
-import { UseCaseException } from '../../exeptions/use-case.exception';
+import { UseCaseException } from '../exeptions/use-case.exception';
 
 export abstract class BaseUseCase<TCommand, TResult> {
   private readonly logger = new Logger(BaseUseCase.name);

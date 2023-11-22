@@ -13,7 +13,8 @@ import { environmentConstant } from '../constants/environment.constant';
 import { Cache } from 'cache-manager';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { SessionEntity } from '../providers/entities/session.entity';
-import { getCurrentTimeInMilliseconds } from '../shared/utils/get-current-time-in-milliseconds.utils';
+import { getCurrentTimeInMilliseconds } from '../shared/utils/get-current-time-in-milliseconds.util';
+import { TSessionCache } from '../shared/types/session-cache.type';
 
 @Injectable()
 export class BearerGuard implements CanActivate {
@@ -34,25 +35,22 @@ export class BearerGuard implements CanActivate {
         secret: this.configService.get(environmentConstant.secret.accessToken),
       });
 
-      let session: Partial<SessionEntity> = await this.cacheManager.get(
-        'session',
-      );
+      let session: TSessionCache = await this.cacheManager.get('session');
       if (!session) {
         session = await this.authQueryRepository.findSessionViaCreatedAt(
           tokenPayload.userId,
           tokenPayload.iat,
         );
       }
-      if (!session) throw Error();
+      if (session.userId !== tokenPayload.userId) throw new Error();
+      if (+session.createdAt !== tokenPayload.iat) throw new Error();
 
       if (tokenPayload.exp * 1000 < getCurrentTimeInMilliseconds())
         throw new Error();
 
       await this.cacheManager.set('session', {
-        id: session.id,
-        //userId: session.userId,
+        userId: session.userId,
         createdAt: session.createdAt,
-        browser: session.browser,
       });
 
       req.userId = tokenPayload.userId;

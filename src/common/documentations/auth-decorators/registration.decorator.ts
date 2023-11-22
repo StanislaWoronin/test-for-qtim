@@ -6,7 +6,7 @@ import {
   ApiOperation,
   ApiTags,
 } from '@nestjs/swagger';
-import { RegistrationDto } from '../../../modules/auth/dto';
+import { AuthDto } from '../../../modules/auth/dto';
 import { ErrorResult } from '../../shared/results/error.result';
 
 export function ApiRegistration() {
@@ -18,8 +18,7 @@ export function ApiRegistration() {
         'Пользователь вводи свою электронную почту и ему приходит письмо в котором содержатся данные, необходимые для авторизации',
     }),
     ApiBody({
-      type: RegistrationDto,
-      required: true,
+      type: AuthDto,
     }),
     ApiNoContentResponse({
       description: 'Новый пользователь успешно создан',

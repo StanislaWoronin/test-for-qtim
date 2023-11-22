@@ -1,7 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import bcrypt from 'bcrypt';
 import { SessionEntity } from './session.entity';
-import { RegistrationDto } from '../../../modules/auth/dto/registration.dto';
+import { AuthDto } from '../../../modules/auth/dto';
+import { NewsEntity } from './news.entity';
 
 @Entity('users')
 export class UserEntity {
@@ -20,7 +21,10 @@ export class UserEntity {
   @OneToMany(() => SessionEntity, (d) => d.user)
   sessions: SessionEntity[];
 
-  static async create(data: RegistrationDto) {
+  @OneToMany(() => NewsEntity, (n) => n.creator)
+  news: NewsEntity[];
+
+  static async create(data: AuthDto): Promise<UserEntity> {
     const result = Object.assign(new UserEntity(), data);
     result.passwordHash = await bcrypt.hash(data.password, 10);
 
